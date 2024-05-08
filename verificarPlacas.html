@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verificação de placas RJ, SP, ES</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="painel-analise">
+        <h1>Análise Combinatória</h1>
+        <ul>
+          <li>Total de placas possíveis no estado de São Paulo (SP): 35.320.000</li>
+          <li>Total de placas possíveis no estado do Rio de Janeiro (RJ): 13.080.0000</li>
+          <li>Total de placas possíveis no estado do Espírito Santo (ES): 2.310.0000</li>
+          <li>
+            <strong>TOTAL DE PLACAS POSSÍVEIS NOS TRÊS ESTADOS: 286.000.000</strong>
+          </li>
+        </ul>
+      </div>
+      <div class="painel-verificacao">
+        <h1>Verificação de placas RJ, SP, ES</h1>
+        <div class="form-container">
+          <label for="placaInput">Digite a placa:</label>
+          <input
+            type="text"
+            id="placaInput"
+            placeholder="Formato: AAA1A11"
+            autocomplete="off"
+          />
+        </div>
+        <div class="button-container">
+          <button id="verificarBtn">Verificar</button>
+        </div>
+        <div id="resultado" class="resultado"></div>
+      </div>
+    </div>
+    <script>
+      const intervaloEstados = {
+          'ES': [['MOX', 'MTZ'], ['OCV', 'ODT'], ['OVE', 'OVF'], ['OVH','OVL'], ['OYD','OYK'], ['PPA','PPZ'], ['QRB','QRM'], ['RBA','RBJ'], ['RQM','RQV']],
+          'RJ': [['KMF', 'LVE'], ['RIO','RIO'], ['RIP', 'RKV']],
+          'SP': [['BFA', 'GKI'], ['QSN', 'QSZ']]
+      };
+
+      document.getElementById("verificarBtn").addEventListener("click", function() {
+          verificarEstado();
+      });
+
+      function verificarEstado() {
+          var placa = document.getElementById("placaInput").value;
+          placa = placa.toUpperCase();
+
+          var padrao = /^[A-Z]{3}\d[A-Z]\d{2}$/;
+
+          if (!padrao.test(placa)) {
+              alert("Placa inválida. Por favor, insira uma placa no padrão Mercosul (AAA1A11).");
+              return;
+          }
+
+          var inicioPlaca = placa.substring(0, 3);
+
+          var estadoOrigem = Object.keys(intervaloEstados).find(function(estado) {
+              var intervalos = intervaloEstados[estado];
+              return intervalos.some(function(intervalo) {
+                  return inicioPlaca >= intervalo[0] && inicioPlaca <= intervalo[1];
+              });
+          });
+
+          if (estadoOrigem) {
+              alert(`A placa pertence ao estado ${estadoOrigem}.`);
+          } else {
+              alert("A placa pertence a um estado fora do escopo desta análise.");
+          }
+      }
+    </script>
+  </body>
+</html>

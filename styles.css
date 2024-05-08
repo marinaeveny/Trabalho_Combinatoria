@@ -7,8 +7,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* altura mínima da página */
-  margin-top: 30px; /* margem superior */
+  min-height: 100vh;
+  margin-top: 30px;
 }
 
 .container {
